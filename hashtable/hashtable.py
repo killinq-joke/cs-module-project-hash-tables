@@ -65,7 +65,7 @@ class HashTable:
         # Your code here
         hash = 5381
         for x in key:
-            hash = (hash * 33) + ord(x)
+            hash = ((hash >> 2) + hash + ord(x))
         return hash
 
     def hash_index(self, key):
