@@ -111,7 +111,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        
+        return self.list[key] or None
 
     def resize(self, new_capacity):
         """
