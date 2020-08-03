@@ -23,6 +23,7 @@ class HashTable:
     def __init__(self, capacity):
         # Your code here
         self.capacity = capacity if capacity > MIN_CAPACITY else MIN_CAPACITY
+        self.list = [None] * capacity
 
     def get_num_slots(self):
         """
@@ -85,7 +86,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        print(self.djb2(key))
+        print(self.djb2(key) % self.capacity)
 
     def delete(self, key):
         """
@@ -96,7 +97,10 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        if not self.list[key]:
+            print("nothing to delete")
+        else:
+            self.list[key] = None
 
     def get(self, key):
         """
@@ -107,7 +111,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        
 
     def resize(self, new_capacity):
         """
