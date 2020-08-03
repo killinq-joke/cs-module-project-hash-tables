@@ -55,7 +55,19 @@ class HashTable:
         """
 
         # Your code here
+        """
+        Returns: The FNV-1 hash of a given string. 
+        """
+        #Constants
+        FNV_prime = 1099511628211
+        offset_basis = 14695981039346656037
 
+        #FNV-1a Hash Function
+        hash = offset_basis
+        for char in key:
+            hash = hash * FNV_prime
+            hash = hash ^ ord(char)
+        return hash
     def djb2(self, key):
         """
         DJB2 hash, 32-bit
@@ -73,8 +85,8 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        # return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        return self.fnv1(key) % self.capacity
+        # return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -124,6 +136,7 @@ class HashTable:
         """
         # Your code here
         self.capacity = new_capacity
+
 
 if __name__ == "__main__":
     ht = HashTable(8)
