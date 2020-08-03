@@ -37,6 +37,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        return self.capacity
 
     def get_load_factor(self):
         """
@@ -64,8 +65,8 @@ class HashTable:
         # Your code here
         hash = 5381
         for x in key:
-            hash = ((hash << 5) + hash) + ord(x)
-        return hash & 0xFFFFFFFF
+            hash = (hash * 33) + ord(x)
+        return hash
 
     def hash_index(self, key):
         """
@@ -95,10 +96,10 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        if not self.list[key]:
+        if not self.list[self.hash_index(key)]:
             print("nothing to delete")
         else:
-            self.list[key] = None
+            self.list[self.hash_index(key)] = None
 
     def get(self, key):
         """
@@ -122,7 +123,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        self.capacity = new_capacity
 
 if __name__ == "__main__":
     ht = HashTable(8)
