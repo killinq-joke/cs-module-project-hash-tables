@@ -2,6 +2,7 @@ class HashTableEntry:
     """
     Linked List hash table key/value pair
     """
+
     def __init__(self, key, value):
         self.key = key
         self.value = value
@@ -38,7 +39,6 @@ class HashTable:
         # Your code here
         return self.capacity
 
-
     def get_load_factor(self):
         """
         Return the load factor for this hash table.
@@ -46,7 +46,6 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
 
     def fnv1(self, key):
         """
@@ -56,6 +55,12 @@ class HashTable:
         """
 
         # Your code here
+        """
+        Returns: The FNV-1 hash of a given string. 
+        """
+        #Constants
+        FNV_prime = 1099511628211
+        offset_basis = 14695981039346656037
 
         FNV_prime = 1099511628211
         offset_basis = 14695981039346656037
@@ -66,7 +71,6 @@ class HashTable:
             hash = hash * FNV_prime
             hash = hash ^ ord(char)
         return hash
-
     def djb2(self, key):
         """
         DJB2 hash, 32-bit
@@ -84,8 +88,8 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        #return self.fnv1(key) % self.capacity
-        return self.djb2(key) % self.capacity
+        return self.fnv1(key) % self.capacity
+        # return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -133,7 +137,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-
+        self.capacity = new_capacity
 
 
 if __name__ == "__main__":
