@@ -24,7 +24,7 @@ class HashTable:
     def __init__(self, capacity):
         # Your code here
         self.capacity = capacity if capacity > MIN_CAPACITY else MIN_CAPACITY
-        self.list = [HashTableEntry(None, None)] * self.capacity
+        self.list = [None] * self.capacity
 
     def get_num_slots(self):
         """
@@ -109,11 +109,10 @@ class HashTable:
         """
         # Your code here
         idx = self.hash_index(key)
-        if self.list[idx].value:
+        if self.list[idx]:
             self.list[idx].next = HashTableEntry(key, value)
         else:
-            self.list[idx].key = key
-            self.list[idx].value = value 
+            self.list[idx] = HashTableEntry(key, value)
 
     def delete(self, key):
         """
@@ -132,7 +131,7 @@ class HashTable:
         elif self.list[idx].key == key:
             self.list[idx] = None
         else:
-            print(f"man, could not find that bruv")
+            print(f"could not find that bruv")
 
     def get(self, key):
         """
@@ -144,12 +143,12 @@ class HashTable:
         """
         # Your code here
         idx = self.hash_index(key)
-        if self.list[idx].key == key:
+        if not self.list[idx]:
+            return None
+        elif self.list[idx].key == key:
             return self.list[idx].value
         elif self.list[idx].next.key == key:
             return self.list[idx].next.value
-        else:
-            return None
 
 
     def resize(self, new_capacity):
@@ -161,10 +160,10 @@ class HashTable:
         """
         # Your code here
         old_list = self.list
-        self.list = [HashTableEntry(None, None)] * new_capacity
+        self.list = [None] * new_capacity
         for i in old_list:
             self.put(i.key, i.value)
-            if i.next.value:
+            if i.next:
                 self.put(i.next.key, i.next.value)
         self.capacity = new_capacity
 
