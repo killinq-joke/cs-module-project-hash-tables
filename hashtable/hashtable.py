@@ -46,6 +46,13 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        num_of_items = 0
+        for i in self.list:
+            if i.value:
+                num_of_items += 1
+            if i.next.value:
+                num_of_items += 1
+        return num_of_items / self.capacity
 
     def fnv1(self, key):
         """
@@ -102,7 +109,7 @@ class HashTable:
         """
         # Your code here
         idx = self.hash_index(key)
-        if self.list[idx]:
+        if self.list[idx].value:
             self.list[idx].next = HashTableEntry(key, value)
         else:
             self.list[idx].key = key
@@ -118,9 +125,14 @@ class HashTable:
         """
         # Your code here
         idx = self.hash_index(key)
-        if self.list[idx].next:
-            pass
-        self.list[idx] = None
+        if self.list[idx].next.key == key:
+            self.list[idx].next = None
+        elif self.list[idx].key == key and self.list[idx].next:
+            self.list[idx] = self.list[idx].next
+        elif self.list[idx].key == key:
+            self.list[idx] = None
+        else:
+            print(f"man, could not find that bruv")
 
     def get(self, key):
         """
@@ -148,6 +160,12 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        old_list = self.list
+        self.list = [HashTableEntry(None, None)] * new_capacity
+        for i in old_list:
+            self.put(i.key, i.value)
+            if i.next.value:
+                self.put(i.next.key, i.next.value)
         self.capacity = new_capacity
 
 
