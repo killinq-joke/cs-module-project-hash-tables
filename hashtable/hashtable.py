@@ -24,7 +24,7 @@ class HashTable:
     def __init__(self, capacity):
         # Your code here
         self.capacity = capacity if capacity > MIN_CAPACITY else MIN_CAPACITY
-        self.list = [None] * self.capacity
+        self.list = [HashTableEntry(None, None)] * self.capacity
 
     def get_num_slots(self):
         """
@@ -71,6 +71,7 @@ class HashTable:
             hash = hash * FNV_prime
             hash = hash ^ ord(char)
         return hash
+
     def djb2(self, key):
         """
         DJB2 hash, 32-bit
@@ -88,8 +89,8 @@ class HashTable:
         Take an arbitrary key and return a valid integer index
         between within the storage capacity of the hash table.
         """
-        return self.fnv1(key) % self.capacity
-        # return self.djb2(key) % self.capacity
+        # return self.fnv1(key) % self.capacity
+        return self.djb2(key) % self.capacity
 
     def put(self, key, value):
         """
@@ -101,7 +102,11 @@ class HashTable:
         """
         # Your code here
         idx = self.hash_index(key)
-        self.list[idx] = value  
+        if self.list[idx]:
+            self.list[idx].next = HashTableEntry(key, value)
+        else:
+            self.list[idx].key = key
+            self.list[idx].value = value 
 
     def delete(self, key):
         """
@@ -113,8 +118,9 @@ class HashTable:
         """
         # Your code here
         idx = self.hash_index(key)
+        if self.list[idx].next:
+            pass
         self.list[idx] = None
-
 
     def get(self, key):
         """
@@ -126,7 +132,12 @@ class HashTable:
         """
         # Your code here
         idx = self.hash_index(key)
-        return self.list[idx]
+        if self.list[idx].key == key:
+            return self.list[idx].value
+        elif self.list[idx].next.key == key:
+            return self.list[idx].next.value
+        else:
+            return None
 
 
     def resize(self, new_capacity):
