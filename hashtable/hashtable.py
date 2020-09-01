@@ -171,11 +171,11 @@ class HashTable:
         # Your code here
         old_list = self.list
         self.list = [None] * new_capacity
+        self.capacity = new_capacity
         for i in old_list:
             self.put(i.key, i.value)
             if i.next:
                 self.put(i.next.key, i.next.value)
-        self.capacity = new_capacity
 
 
 if __name__ == "__main__":
