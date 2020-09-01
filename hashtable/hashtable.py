@@ -133,12 +133,15 @@ class HashTable:
         """
         # Your code here
         idx = self.hash_index(key)
-        if self.list[idx].next.key == key:
-            self.list[idx].next = None
-        elif self.list[idx].key == key and self.list[idx].next:
-            self.list[idx] = self.list[idx].next
-        elif self.list[idx].key == key:
-            self.list[idx] = None
+        if self.list[idx]:
+            if self.list[idx].next:
+                if self.list[idx].next.key == key:
+                    self.list[idx].next = None
+                    return
+            if self.list[idx].key == key and self.list[idx].next:
+                self.list[idx] = self.list[idx].next
+            elif self.list[idx].key == key:
+                self.list[idx] = None
         else:
             print(f"could not find that bruv")
 
@@ -159,6 +162,7 @@ class HashTable:
         elif self.list[idx].next:
             if self.list[idx].next.key == key:
                 return self.list[idx].next.value
+        return None
 
 
     def resize(self, new_capacity):
