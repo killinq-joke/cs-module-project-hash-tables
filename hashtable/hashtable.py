@@ -1,3 +1,5 @@
+import math
+
 class HashTableEntry:
     """
     Linked List hash table key/value pair
@@ -25,6 +27,7 @@ class HashTable:
         # Your code here
         self.capacity = capacity if capacity > MIN_CAPACITY else MIN_CAPACITY
         self.list = [None] * self.capacity
+        self.num_of_items = 0
 
     def get_num_slots(self):
         """
@@ -46,13 +49,7 @@ class HashTable:
         Implement this.
         """
         # Your code here
-        num_of_items = 0
-        for i in self.list:
-            if i.value:
-                num_of_items += 1
-            if i.next.value:
-                num_of_items += 1
-        return num_of_items / self.capacity
+        return self.num_of_items / self.capacity
 
     def fnv1(self, key):
         """
@@ -108,6 +105,10 @@ class HashTable:
         Implement this.
         """
         # Your code here
+        if self.get_load_factor() >= 0.7:
+            self.resize(self.capacity * 2)
+        elif self.get_load_factor() <= 0.2:
+            self.resize(math.ceil(self.capacity / 2))
         idx = self.hash_index(key)
         if self.list[idx]:
             if self.list[idx].key == key:
@@ -115,6 +116,7 @@ class HashTable:
                 return
         else:
             self.list[idx] = HashTableEntry(key, value)
+            self.num_of_items += 1
             return
         if self.list[idx].next:
             if self.list[idx].next.key == key:
@@ -122,6 +124,7 @@ class HashTable:
                 return
         else:
             self.list[idx].next = HashTableEntry(key, value)
+            self.num_of_items += 1
 
     def delete(self, key):
         """
@@ -177,9 +180,10 @@ class HashTable:
         self.list = [None] * new_capacity
         self.capacity = new_capacity
         for i in old_list:
-            self.put(i.key, i.value)
-            if i.next:
-                self.put(i.next.key, i.next.value)
+            if i:
+                self.put(i.key, i.value)
+                if i.next:
+                    self.put(i.next.key, i.next.value)
 
 
 if __name__ == "__main__":
