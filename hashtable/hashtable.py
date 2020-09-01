@@ -110,9 +110,18 @@ class HashTable:
         # Your code here
         idx = self.hash_index(key)
         if self.list[idx]:
-            self.list[idx].next = HashTableEntry(key, value)
+            if self.list[idx].key == key:
+                self.list[idx].value = value
+                return
         else:
             self.list[idx] = HashTableEntry(key, value)
+            return
+        if self.list[idx].next:
+            if self.list[idx].next.key == key:
+                self.list[idx].next.value = value
+                return
+        else:
+            self.list[idx].next = HashTableEntry(key, value)
 
     def delete(self, key):
         """
@@ -147,8 +156,9 @@ class HashTable:
             return None
         elif self.list[idx].key == key:
             return self.list[idx].value
-        elif self.list[idx].next.key == key:
-            return self.list[idx].next.value
+        elif self.list[idx].next:
+            if self.list[idx].next.key == key:
+                return self.list[idx].next.value
 
 
     def resize(self, new_capacity):
