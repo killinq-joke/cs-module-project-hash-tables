@@ -107,7 +107,7 @@ class HashTable:
         # Your code here
         if self.get_load_factor() >= 0.7:
             self.resize(self.capacity * 2)
-        elif self.get_load_factor() <= 0.2:
+        elif self.get_load_factor() <= 0.2 and math.ceil(self.capacity / 2) >= 8:
             self.resize(math.ceil(self.capacity / 2))
         idx = self.hash_index(key)
         if self.list[idx]:
