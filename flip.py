@@ -2,8 +2,9 @@ import random
 import math
 
 money = 10
-win_percentage = 0.500000000001
-kelly = (win_percentage - (1 - win_percentage)) * money
+gain = 1
+win_percentage = 0.6
+kelly = (win_percentage * gain - (1 - win_percentage)) / gain * money
 
 def flip(bet, win_percentage):
     global money
@@ -12,7 +13,7 @@ def flip(bet, win_percentage):
         money += bet
     else:
         money -= bet
-    kelly = (win_percentage - (1 - win_percentage)) * money
+    kelly = (win_percentage * gain - (1 - win_percentage)) / gain * money
     print(money)
 
 while money > 0:
