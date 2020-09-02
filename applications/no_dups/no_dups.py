@@ -1,6 +1,10 @@
+from word_count import word_count
+
 def no_dups(s):
     # Your code here
-
+    return ' '.join([i for i in word_count(s).keys()])
+    
+    
 
 
 if __name__ == "__main__":
